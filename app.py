@@ -1,49 +1,42 @@
+
 import os
 import google.generativeai as genai
-from dotenv import load_dotenv
 import streamlit as st
-from pdf_text_extractor import extract_text_from_pdf
+from pdf_text_extractor import extract_text
+from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv() # activate api key
 
-api_key = os.getenv("GOOGLE-GEMINI-API-KEY")
-if not api_key:
-    raise ValueError("GOOGLE_GEMINI_API not found") 
+# configure model
 
-genai.configure(api_key= api_key)
+api_key = os.getenv("GOOGLE_GEMINI_API")
+genai.configure(api_key = api_key)
 
-model = genai.GenerativeModel("models/gemini-2.5-flash")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
-st.header("Resume Matcher with Google Gemini")
+st.header('SKILL MATCHER :blue[AI assited skill matching tool]', divider = 'green')
 
-st.subheader("Tips to use the App")
+tips = '''*Upload your resume in sidebar (PDF only).
+* copy and paste Job description for job you are applying for.
+* submit your data and see the magic'''
 
-tips = """
-- Upload a PDF resume using the uploader below.
-- The app will extract text from the PDF and generate a summary using Google Gemini.
-- Review the generated summary displayed on the app.
-"""
-st.markdown(tips)
+st.write(tips)
 
-st.sidebar.header("Upload your Resume", divider="green")
-st.sidebar.subheader("Upload a PDF resume to get started.")
-pdf_doc = st.sidebar.file_uploader("Upload a PDF Resume", type="pdf")
+st.sidebar.header('UPLOAD YOUR RESUME HERE', divider = 'green')
+st.sidebar.subheader('Upload pdf file only.')
+pdf_doc = st.sidebar.file_uploader('Resume', type = ['pdf'])
 
-pdf_text = ""
-if pdf_doc is not None:
-    with open("temp_resume.pdf", "wb") as f:
-        f.write(pdf_doc.getbuffer())
-    pdf_text = extract_text_from_pdf("temp_resume.pdf")
-    st.sidebar.success("PDF uploaded and text extracted successfully!")
+pdf_text = None
 
+if pdf_doc:
+    pdf_text = extract_text(pdf_doc)
 else:
-    st.sidebar.info("Please upload a PDF resume to proceed.")
+    st.sidebar.write('upload the PDF first')
 
-job_description = st.text_area("Enter Job Description", height=150)
-
+job_desc = st.text_area('Copy and paste your job description (Press ctrl+enter to submit)', max_chars = 10000)
 
 prompt = f'''Assuming you are an expert in job skill matching and profile short listing.
-You have the resume = {pdf_text} and job description = {job_description}. Using this data generate the
+You have the resume = {pdf_text} and job description = {job_desc}. Using this data generate the
 output on the following otline
 
 * Calculate and show the ATS score. Discuss matching and non matching keywords (max 2 line discussion).
@@ -55,13 +48,12 @@ output on the following otline
 being maximised while implementing all the points discussed above.
 * Prepare these resume in such a way that it can be copied and pasted in word and generate pdf.'''
 
-if job_description:
-    if pdf_text == None:
-        st.warning("Please upload a PDF resume to proceed.")
-
+if job_desc:
+    if pdf_doc == None:
+        st.write('You forgot to upload resume')
     else:
-        with st.spinner("Generating summary..."):
+        with st.spinner("Processing your resume and jobdescription"):
             response = model.generate_content(prompt)
-
-        st.subheader("Generated Summary")
-        st.markdown(response.text)
+            
+        st.success('Processing Completed')
+        st.write(response.text)
