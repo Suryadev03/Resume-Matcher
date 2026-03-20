@@ -2,7 +2,7 @@
 import os
 import google.generativeai as genai
 import streamlit as st
-from pdf_text_extractor import extract_text
+from pdf_text_extractor import text_extractor_pdf as extract_text
 from dotenv import load_dotenv
 
 load_dotenv() # activate api key
