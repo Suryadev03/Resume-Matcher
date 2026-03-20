@@ -1,49 +1,53 @@
-# 📄 Resume Matcher App using Gemini API
+# 📄 Skill Matcher App using Gemini API
 
-An AI-powered **Resume Matcher Application** that intelligently compares a candidate’s resume with a job description and returns a **match score, skill alignment, gaps, and improvement suggestions** using **:contentReference[oaicite:0]{index=0}**.
+An AI‑powered **Skill Matcher Application** that compares a candidate’s resume with a job description and generates a **match score, ATS analysis, SWOT insights, and tailored resume suggestions** using **Google Gemini API**.
 
-This app helps **recruiters**, **HR teams**, and **job seekers** quickly evaluate resume–job fit using Generative AI.
+This app helps **job seekers**, **recruiters**, and **HR professionals** evaluate resume–JD fit quickly and intelligently.
+
+WebLink : https://resume-matcher-irffqn3zxkdx9vmyzvtu5d.streamlit.app/
 
 ---
 
 ## 🚀 Features
 
-- 📑 Upload resume (PDF)
-- 🧾 Input job description
-- 🤖 AI-based resume–JD matching using Gemini
-- 📊 Match percentage score
-- ✅ Matched skills
-- ❌ Missing skills & gaps
-- ✍️ Resume improvement suggestions
-- ⚡ Fast API-based response
+- 📑 Upload resume (PDF) via sidebar  
+- 🧾 Paste job description text  
+- 🤖 AI‑assisted skill matching with Gemini  
+- 📊 ATS score calculation  
+- ✅ Matched & unmatched keywords  
+- 🔍 SWOT analysis of resume vs JD  
+- ✍️ Resume improvement suggestions  
+- 📄 Auto‑generated revised resumes for better shortlisting chances  
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Backend
-- **Language:** Python
-- **Framework:** FastAPI
-- **AI Model:** Gemini (Google Generative AI)
-- **PDF Parsing:** PyPDF / pdfplumber
-
-### Frontend (Optional)
-- **Framework:** React / Streamlit
-- **Styling:** Tailwind / CSS
+- **Language:** Python  
+- **Framework:** Streamlit  
+- **AI Model:** Gemini (`gemini-2.5-flash`)  
+- **PDF Parsing:** PyPDF / pdfminer.six  
+- **Environment Management:** python‑dotenv  
 
 ---
+
 ## 🔑 Prerequisites
 
-- Python **3.9+**
-- Google **Gemini API Key**
-- Internet connection
+- Python **3.9+**  
+- Google **Gemini API Key** stored in `.env` file as `GOOGLE_GEMINI_API`  
+- Internet connection  
 
 ---
+## 🖥️ How It Works
 
-## 📦 Installation
+- Upload your resume (PDF) in the sidebar.
+- Paste the job description in the text area.
+- The app sends both to Gemini API with a structured prompt.
+- Gemini generates:
+- ATS score & keyword analysis
+- Selection probability
+- SWOT analysis
+- Resume positives & gaps
+- Two revised resumes tailored to the JD
 
-1️⃣ **Clone the repository**
-```bash
-git clone https://github.com/your-username/resume-matcher.git
-cd resume-matcher
-
+---
